@@ -16,6 +16,15 @@ public class App {
         System.out.println(nroDigit(Integer.MAX_VALUE));
     }
 
+    /**
+     * caso base = n < 9
+     * caso de erro = N/A
+     * caso recursivo = n > 9
+     * 
+     *     nroDigit(n) = 1 + nroDigit(n / 10)
+     * @param n
+     * @return
+     */
     public static int nroDigit(int n) {
         if (n < 9) {
             return 1;
@@ -23,11 +32,18 @@ public class App {
         return 1 + nroDigit(n / 10);
     }
 
+    /**
+     * caso base -> str = null || length(str) = 0 || match = null || str.regionMatches(0, match, 0, length(match))
+     * caso de erro -> N/A
+     * caso recursivo -> not str.regionMatches(0, match, 0, length(match))
+     * 
+     *     findSubstr(str, match) = findSubstr(str.substr(1), match)
+     * @param str
+     * @param match
+     * @return
+     */
     public static boolean findSubstr(String str, String match) {
-        if (str == null || match == null) {
-            return false;
-        }
-        if (str.isEmpty()) {
+        if (str == null || str.isEmpty() || match == null) {
             return false;
         }
         if (str.regionMatches(0, match, 0, match.length())) {
@@ -36,6 +52,22 @@ public class App {
         return findSubstr(str.substring(1), match);
     }
 
+    /**
+     * caso base -> size(list) = 0
+     * caso de erro -> N/A
+     * caso recursivo -> size(list) > 0
+     * 
+     *     findBiggest(list) = findBiggest(list, removeLast(list))
+     *     findBiggest(list, biggest) =
+     *         last = removeLast(list)
+     *         if last > biggest then
+     *             findBiggest(list, last)
+     *             else
+     *                 findBiggest(list, biggest)
+     * @param list
+     * @param biggest
+     * @return
+     */
     public static Integer findBiggest(List<Integer> list) {
         if (list.isEmpty()) {
             return null;
@@ -54,9 +86,18 @@ public class App {
         return findBiggest(list, biggest);
     }
 
+    /**
+     * caso base -> size(list) = 0
+     * caso de erro -> list = null
+     * caso recursivo -> size(list) > 0
+     * 
+     *     sumList(list) = removeLast(list) + sumList(list)
+     * @param list
+     * @return
+     */
     public static int sumList(List<Integer> list) {
         if (list == null) {
-            return 0;
+            throw new IllegalArgumentException("list is null");
         }
         if (list.isEmpty()) {
             return 0;
@@ -64,9 +105,22 @@ public class App {
         return list.removeLast() + sumList(list);
     }
 
+    /**
+     * caso base -> n = 1 || n = 0
+     * caso de erro -> n < 0
+     * caso recursivo -> n > 1
+     * 
+     *     convBase2(n) = convBase2(n / 2) + (n % 2)
+     * 
+     * ou, com operadores bitwise,
+     * 
+     *     convBase(n) = convBase2(n >> 1) + (n & 1)
+     * @param n
+     * @return
+     */
     public static String convBase2(int n) {
         if (n < 0) {
-            return null;
+            throw new IllegalArgumentException(String.valueOf(n));
         }
         if (n == 0) {
             return "0";
@@ -77,9 +131,18 @@ public class App {
         return convBase2(n >> 1) + (n & 1);
     }
 
+    /**
+     * caso base -> empty(str) || length(str) = 1
+     * caso de erro -> str = null
+     * caso recursivo -> length(str) > 1
+     * 
+     *     isPal(str) = str[0] == str[length(str) - 1] && isPal(str.substr(1, length(str) - 1))
+     * @param str
+     * @return
+     */
     public static boolean isPal(String str) {
         if (str == null) {
-            return false;
+            throw new IllegalArgumentException("input cannot be null");
         }
         if (str.isEmpty() || str.length() == 1) {
             return true;
@@ -88,6 +151,17 @@ public class App {
             isPal(str.substring(1, str.length() - 1));
     }
     
+    /**
+     * caso base -> j = k
+     * caso de erro -> N/A
+     * caso recursivo -> j != k
+     * 
+     *     se j > k, sumRange(j, k) = sumRange(k, j)
+     *     se j < k, sumRange(j, k) = j + sumRange(j + 1, k)
+     * @param j
+     * @param k
+     * @return
+     */
     public static int sumRange(int j, int k) {
         if (j > k) {
             return sumRange(k, j);
@@ -96,10 +170,17 @@ public class App {
             return j;
         }
         return j + sumRange(j + 1, k);
-    } 
+    }
 
+    /**
+     * caso base -> n = 1 || n = 2
+     * caso de erro -> n <= 0
+     * caso recursivo -> n >= 1
+     * 
+     *     fib(n) = fib(n - 1) + fib(n - 2)
+     */
     public static int fib(int n) {
-        if (n < 0) {
+        if (n <= 0) {
             throw new IllegalArgumentException("invalid arg. should be greater than zero");
         }
         if (n == 1 || n == 2) {
@@ -108,6 +189,14 @@ public class App {
         return fib(n - 1) + fib(n - 2);
     }
 
+    /**
+     * caso base = 0
+     * caso de erro = N/A
+     * caso recursivo = abs(n) > 0
+     * 
+     *     para n > 0, sum(n) = n + sum(n - 1)
+     *     para n < 0, sum(n) = 0 - sum(abs(n))
+     */
     public static int sum(int n) {
         if (n == 0) {
             return 0;
@@ -118,6 +207,13 @@ public class App {
         return n + sum(n - 1);
     }
 
+    /**
+     * caso base -> n == 1
+     * caso de erro -> n <= 0
+     * caso recursivo -> n > 1
+     * 
+     *     fatorial(n) = n * fatorial(n - 1)
+     */
     public static int fatorial(int n) {
         if (n <= 0) {
             throw new IllegalArgumentException("invalid arg. should be greater than zero");

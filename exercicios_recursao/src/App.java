@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.IllegalArgumentException;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -14,24 +15,38 @@ public class App {
         System.out.println(findBiggest(new ArrayList<>(List.of(1,5,2,7,1,74,3,9))));
         System.out.println(findSubstr("astral", "trala"));
         System.out.println(nroDigit(Integer.MAX_VALUE));
+        System.out.println(permutations("abc"));
     }
-
-    public static List<String> permutations(String s) {
-        List<String> res = new ArrayList<>();
-        permutations(s, res);
-        return res;
-    }
-
-    private static String permutations(String str, List<String> list) {
-        if (str.length() == 1) {
-            return str.toString();
+    /**
+     * caso base -> lenght(str) == 0
+     * caso de erro -> null(str)
+     * caso recursivo -> length(str) > 0
+     * 
+     *     res = []
+     *     para i de 0 até length(str)
+     *         nStr = removeChar(str, i)
+     *         perms = permutations(nStr)
+     *             para perm em perms 
+     *                 append(res, perm + charAt(str, i))
+     */
+    public static List<String> permutations(String str) {
+        if (str == null) {
+            throw new IllegalArgumentException("input is null");
+        }
+        ArrayList<String> res = new ArrayList<>();
+        if (str.isEmpty()) {
+            res.add(str);
+            return res;
         }
         for (int i = 0; i < str.length(); i++) {
-            StringBuilder s = new StringBuilder(str);
-            s.deleteCharAt(i);
-            list.add(str.charAt(i) + permutations(s.toString(), list));
+            String newStr = str.substring(0, i) + str.substring(i + 1, str.length());
+            List<String> perms = permutations(newStr);
+            for (String s : perms) {
+                res.add(str.charAt(i) + s);
+            }
         }
-        return "";
+        return res;
+
     }
 
     /**

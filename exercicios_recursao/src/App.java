@@ -16,8 +16,26 @@ public class App {
         System.out.println(nroDigit(Integer.MAX_VALUE));
     }
 
+    public static List<String> permutations(String s) {
+        List<String> res = new ArrayList<>();
+        permutations(s, res);
+        return res;
+    }
+
+    private static String permutations(String str, List<String> list) {
+        if (str.length() == 1) {
+            return str.toString();
+        }
+        for (int i = 0; i < str.length(); i++) {
+            StringBuilder s = new StringBuilder(str);
+            s.deleteCharAt(i);
+            list.add(str.charAt(i) + permutations(s.toString(), list));
+        }
+        return "";
+    }
+
     /**
-     * caso base = n < 9
+     * caso base = n < 10
      * caso de erro = N/A
      * caso recursivo = n > 9
      * 
